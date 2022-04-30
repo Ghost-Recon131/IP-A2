@@ -5,6 +5,14 @@
 
 # Private GitHub repo (email for access): https://github.com/Ghost-Recon131/IP-A2
 
+# References in IEEE
+"""
+1.
+2.
+3.
+"""
+
+
 # Import modules
 import math
 import random
@@ -22,7 +30,7 @@ def get_user_input_int():
     try:
         userin = int(input("Please enter your choice as an integer: "))
     except:
-        print("")
+        print("You did not enter a valid integer! ")
     return userin
 
 
@@ -32,7 +40,7 @@ def get_user_input_float(prompt):
     try:
         userin = float(input(prompt))
     except:
-        print("")
+        print("You did not enter a valid float! ")
     return userin
 
 
@@ -147,11 +155,3 @@ def main():
 
 # Start program
 main()
-
-
-# References in IEEE
-"""
-1. 
-2. 
-3. 
-"""
