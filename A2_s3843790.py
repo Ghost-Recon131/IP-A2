@@ -71,8 +71,9 @@ def validate_userinput(input, allowed_values_array):
 def validate_userinput_int(input, maxoption):
     is_valid = False
 
-    if (input > 0 and input <= maxoption):
-        is_valid = True
+    if (input is not None):
+        if (input > 0 and input <= maxoption):
+            is_valid = True
 
     return is_valid
 
