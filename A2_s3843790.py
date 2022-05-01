@@ -365,7 +365,7 @@ def scene5():
     global user_char_weapon
 
     # Introduces current scene and scenario to user
-    print("You've successfully taken out the guard and move on with the rest of the part... \n"
+    print("\nYou've successfully taken out the guard and move on with the rest of the part... \n"
           "Your earlier attacks have caused quite a commotion, the scouts inside the camp is ready to face you! \n")
 
     prompt = "1. Attack with your weapon: " + user_char_weapon + " \n" \
@@ -444,23 +444,77 @@ def scene5():
             else:
                 print("You did not enter a valid option! \n")
         number_of_enemies_defeated = number_of_enemies_defeated + 1
+    # END OF scene5 FUNCTION
 
 
-# TODO: Function for scene 6
+# Function for scene 6 - 4 alternate endings depending on user's choice
 def scene6():
-    return None
+    global daily_explosion_spell
+    global user_char_weapon
+    global quest_award
 
+    # Introduces current scene and scenario to user
+    print("Your party took out the remaining scouts, however their squad leader returns...\n"
+          "Will you fight him or will you sneak away? \n")
 
-# Functions for
+    prompt = "1. Attack with your weapon: " + user_char_weapon + " \n" \
+             "2. Sneak away and retreat back to Axel  \n" \
+             "3. Ask Megumin to cast explosion \n" \
+             "4. All out attack with your party \n"
+
+    finish_game = False
+    end_game_plot = None
+    # Continuously prompt for valid input, has different endings depending on action chosen
+    while not finish_game:
+        print(prompt)
+        user_choice = get_user_input_int()
+        if (validate_userinput_int(user_choice, 4)):  # is the number of options offered to user
+            if (user_choice == 1):
+                actual_award = quest_award / 2
+                end_game_plot = "You were quickly defeated by the squad leader. \n" \
+                                "Aqua revives you and you travel back to Axel along with your party. \n" \
+                                "You all make it back to Axel to celebrate your victory. \n" \
+                                "You've stopped an invasion of Axel but didn't fully complete the quest. \n" \
+                                "\nYou've earned " + str(actual_award) + " eris as the quest award instead."
+                finish_game = True
+
+            elif (user_choice == 2):
+                actual_award = quest_award / 2
+                end_game_plot = "Your party makes a quite getaway. \n" \
+                                "You all make it back to Axel to celebrate your victory. \n" \
+                                "You've stopped an invasion of Axel but didn't fully complete the quest. \n" \
+                                "\nYou've earned " + str(actual_award) + " eris as the quest award instead."
+                finish_game = True
+
+            elif (user_choice == 3):
+                if(daily_explosion_spell):
+                    daily_explosion_spell = False
+                chant = megumin_explosion_chant()
+                print(chant)
+
+                end_game_plot = "You've taken out the squad leader, successfully completing the quest. \n" \
+                                "Back at Axel, you and your other party members gain a lot of attention, \n" \
+                                "but the Demon Load have also taken an interest in this situation... \n" \
+                                "\nYou've earned " + str(quest_award) + " eris as the quest award."
+                finish_game = True
+
+            elif (user_choice == 4):
+                end_game_plot = "Your attacks were ineffective, the squad leader specialises in close quarters fighting and takes out your whole party...\n" \
+                                "While your quest managed to stop an attack on Axel, your party did not get to tell the tale. \n"
+                finish_game = True
+        else:
+            print("You did not enter a valid option! \n")
+    print(end_game_plot + "\n" + "Thank you for playing KoNoSuBa: Side Story!")
+    # END OF scene6 FUNCTION
 
 
 # Main Program
 def main():
     show_main_menu()
-    # scene1()
-    # scene2()
-    # scene3()
-    # scene4()
+    scene1()
+    scene2()
+    scene3()
+    scene4()
     scene5()
     scene6()
 
