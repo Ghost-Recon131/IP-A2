@@ -361,8 +361,8 @@ def megumin_explosion_chant():
 
 # Function for scene 5 - Prompts user to fight multiple enemies
 def scene5():
-    global daily_explosion_spell
     global user_char_weapon
+    global daily_explosion_spell
 
     # Introduces current scene and scenario to user
     print("\nYou've successfully taken out the guard and move on with the rest of the part... \n"
@@ -430,6 +430,7 @@ def scene5():
                     print(result)
 
                 elif (user_choice == 5):
+
                     if(daily_explosion_spell):
                         daily_explosion_spell = False
                         enemy_hp = 0
@@ -449,9 +450,9 @@ def scene5():
 
 # Function for scene 6 - 4 alternate endings depending on user's choice
 def scene6():
-    global daily_explosion_spell
     global user_char_weapon
     global quest_award
+    global daily_explosion_spell
 
     # Introduces current scene and scenario to user
     print("\nYour party took out the remaining scouts, however their squad leader returns...\n"
@@ -487,16 +488,19 @@ def scene6():
                 finish_game = True
 
             elif (user_choice == 3):
+                # global daily_explosion_spell
                 if(daily_explosion_spell):
                     daily_explosion_spell = False
-                chant = megumin_explosion_chant()
-                print(chant)
+                    chant = megumin_explosion_chant()
+                    print(chant)
+                    end_game_plot = "You've taken out the squad leader, successfully completing the quest. \n" \
+                                    "Back at Axel, you and your other party members gain a lot of attention, \n" \
+                                    "but the Demon Load have also taken an interest in this situation... \n" \
+                                    "\nYou've earned " + str(quest_award) + " eris as the quest award."
+                    finish_game = True
 
-                end_game_plot = "You've taken out the squad leader, successfully completing the quest. \n" \
-                                "Back at Axel, you and your other party members gain a lot of attention, \n" \
-                                "but the Demon Load have also taken an interest in this situation... \n" \
-                                "\nYou've earned " + str(quest_award) + " eris as the quest award."
-                finish_game = True
+                else:
+                    print("Megumin has already casted her explosion spell today and exhausted her mana... \n")
 
             elif (user_choice == 4):
                 end_game_plot = "Your attacks were ineffective, the squad leader specialises in close quarters fighting and takes out your whole party...\n" \
