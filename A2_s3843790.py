@@ -98,8 +98,41 @@ def show_main_menu():
     print(ascii_art + "\n")
 
 
-# Function for scene 1, ask user to enter their character's name, height and pick a weapon
+# Function for scene 1 - Work scene, user needs to select option 3 to progress the story
 def scene1():
+    global user_char_name
+    # Introduces current scene and scenario to user
+    print(
+        "It is almost the end of the day and a customer wants to negotiate price for a potion. \n"
+                                 "You need to sell this as it is part of your task to help clear the store inventory. \n")
+
+    prompt = "What action will you take? \n" \
+             "1. Attempt to not lower the price \n" \
+             "2. Offer a free item along with the purchase \n" \
+             "3. Offer a 15% discount"
+    next_scene = False
+
+    # Continuously prompt for input until user selects option 3
+    while not next_scene:
+        print(prompt)
+
+        user_choice = get_user_input_int()
+        if (validate_userinput_int(user_choice, 3)):  # is the number of options offered to user
+            if (user_choice == 1):
+                print("The buyer is not budging, perhaps offer something... \n")
+            elif (user_choice == 2):
+                print("The buyer is not interested in other items, perhaps offer a small discount... \n")
+            elif (user_choice == 3):
+                print("The buyer accepts your offer, after they paid for the potion, you close up shop and go home. \n")
+                next_scene = True
+        else:
+            print("You did not enter a valid option! \n")
+
+    # END OF scene1 FUNCTION
+
+
+# Function for scene 2, ask user to enter their character's name, height and pick a weapon
+def scene2():
     # Get user to create name of their character
     name_entered = False
     while not name_entered:
@@ -137,40 +170,7 @@ def scene1():
 
     if (valid_weapon_name):
         user_char_weapon = choose_weapon
-    print("Your chosen weapon is : " + choose_weapon + "\n \n")
-    # END OF scene1 FUNCTION
-
-
-# Function for scene 2 - Work scene, user needs to select option 3 to progress the story
-def scene2():
-    global user_char_name
-    # Introduces current scene and scenario to user
-    print(
-        "Hi " + user_char_name + " , it is almost the end of the day and a customer wants to negotiate price for a potion. \n"
-                                 "You need to sell this as it is part of your task to help clear the store inventory. \n")
-
-    prompt = "What action will you take? \n" \
-             "1. Attempt to not lower the price \n" \
-             "2. Offer a free item along with the purchase \n" \
-             "3. Offer a 15% discount"
-    next_scene = False
-
-    # Continuously prompt for input until user selects option 3
-    while not next_scene:
-        print(prompt)
-
-        user_choice = get_user_input_int()
-        if (validate_userinput_int(user_choice, 3)):  # is the number of options offered to user
-            if (user_choice == 1):
-                print("The buyer is not budging, perhaps offer something... \n")
-            elif (user_choice == 2):
-                print("The buyer is not interested in other items, perhaps offer a small discount... \n")
-            elif (user_choice == 3):
-                print("The buyer accepts your offer, after they paid for the potion, you close up shop and go home. \n")
-                next_scene = True
-        else:
-            print("You did not enter a valid option! \n")
-
+    print("Welcome to Konosuba: Side Story " + user_char_name + " your chosen weapon is : " + choose_weapon + "\n \n")
     # END OF scene2 FUNCTION
 
 
