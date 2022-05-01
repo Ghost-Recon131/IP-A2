@@ -23,7 +23,7 @@ import random
 # These are global variables used in multiple scenes, has pre-defined values if the user does not overwrite them
 user_char_name = "Filarion Zylyarus"
 user_char_height = 175
-user_char_weapon = "Chunchunmaru"
+user_char_weapon = "CHUNCHUNMARU"
 daily_explosion_spell = True
 quest_award = 2000000
 
@@ -121,7 +121,7 @@ def scene1():
 
     # Get user to choose a weapon
     # List of alternative weapons user can choose
-    alternative_weapons = ["KATANA", "LONG SWORD", "DAGGER"]
+    alternative_weapons = ["KATANA", "LONG SWORD", "RAPIER"]
 
     global user_char_weapon
     print("Please enter the weapon you want to carry (not case sensitive). Weapons: ")
@@ -189,7 +189,7 @@ def scene3():
     next_scene = False
     accept_message = "You go home and ready your gear, then you meet up with Kazuma's party to begin your quest"
 
-    # Continuously prompt for input until user selects option 3
+    # Continuously prompt for input until user selects option 1 or 2
     while not next_scene:
         print(prompt)
 
@@ -211,13 +211,122 @@ def scene3():
         else:
             print("You did not enter a valid option! \n")
 
+    # END OF scene3 FUNCTION
 
-# END OF scene3 FUNCTION
+
+# Utility functions for scene 4 and 5
+# Randomly generate user's damage depending on their weapon
+def user_attack_damage(user_weapon):
+    damage = None
+
+    if(user_weapon == "CHUNCHUNMARU"):
+        damage = random.randint(2, 4)
+    elif(user_weapon == "KATANA"):
+        damage = random.randint(4, 6)
+    elif (user_weapon == "LONG SWORD"):
+        damage = random.randint(6, 10)
+    else: # only other possible value is RAPIER, thus don't have to use another else if
+        damage = random.randint(4, 8)
+
+    return damage
 
 
-# TODO: Function for scene 4
+def longbow_attack_damage():
+    longbow_damage = None
+    random_values = random.sample(range(1, 10), 3)
+    miss = validate_userinput(random.randint(1, 10), random_values)
+
+    if(miss):
+        longbow_damage = 0
+    else:
+        longbow_damage = random.randint(8, 15)
+
+    return longbow_damage
+
+
+# Uses random to see if user can land critical hit
+# validate_userinput function can actually be reused here as it checks if a parameter is inside the supplied array
+def critical_damage(blessing):
+    critical_hit = False
+
+    # Guaranteed critical hit with Aqua's blessing cast
+    if(blessing):
+        critical_hit = True
+    else:
+       # chance of critical hit (chance of number being inside loop)
+       random_values = random.sample(range(1, 10), 4)
+       critical_hit = validate_userinput(random.randint(1, 10), random_values)
+
+    return critical_hit
+
+
+# Function for scene 4 - Continuously fight enemy guard until his hp <= 0
 def scene4():
-    return None
+    print("You get close to the camp of the recon force, and you notice a single guard guarding the only entry path. \n"
+          "You're currently ahead of the party and will need to deal with the guard yourself. \n"
+          "Aqua and Megumin have not yet caught up so their abilities will not be available here. \n")
+
+    global user_char_weapon
+    prompt_1 = "How will you proceed? \n" \
+             "1. Try sneak around the guard \n" \
+             "2. Prepare to attack"
+
+    attack = False
+    # Continuously prompt for input until user selects option 2
+    while not attack:
+        print(prompt_1)
+
+        user_choice = get_user_input_int()
+        if (validate_userinput_int(user_choice, 2)):  # is the number of options offered to user
+            if (user_choice == 1):
+                print("The guard does not give you an opening. It appears you will have to take him out... \n")
+            elif (user_choice == 2):
+                attack = True
+                print("You step out of hiding, the guard draws his weapon and prepares to attack you \n")
+        else:
+            print("You did not enter a valid option! \n")
+
+    # Continuously prompt until the user kills the guard
+    enemy_hp = 25
+
+    while enemy_hp > 0:
+        prompt_2 = "The guard has " + str(enemy_hp) + " hp remaining. \n" \
+                    "1. Attack with your weapon: " + user_char_weapon + " \n" \
+                    "2. Tell Kazuma longbow attack; has chance of missing \n" \
+                    "3. Tell Darkness to attack \n"
+
+        print(prompt_2)
+        user_choice = get_user_input_int()
+        if (validate_userinput_int(user_choice, 3)):  # is the number of options offered to user
+            if (user_choice == 1):
+                damage = user_attack_damage(user_char_weapon)
+                critical_hit = critical_damage(False) # False since Aqua cannot cast Blessing in this scene
+
+                # Deal 2x damage in critical hit or with damage buff
+                if(critical_hit):
+                    print("You've landed a critical hit!!!")
+                    damage = damage * 2
+
+                enemy_hp = enemy_hp - damage
+                print("Your attack deals " + str(damage) + " damage")
+
+            elif (user_choice == 2):
+                damage = longbow_attack_damage()
+                enemy_hp = enemy_hp - damage
+                result = ""
+                if (damage == 0):
+                    result = "Kazuma has missed! Dealing 0 damage"
+                else:
+                    result = "Kazuma dealt " + str(damage) + " damage"
+                print(result)
+
+            elif (user_choice == 3):
+                enemy_hp = enemy_hp - 0
+                print("Darkness missed and deals 0 damage!")
+        else:
+            print("You did not enter a valid option! \n")
+
+    # END OF scene4 FUNCTION
 
 
 # TODO: Function for scene 5
@@ -236,9 +345,9 @@ def scene6():
 # Main Program
 def main():
     show_main_menu()
-    scene1()
-    scene2()
-    scene3()
+    # scene1()
+    # scene2()
+    # scene3()
     scene4()
     scene5()
     scene6()
