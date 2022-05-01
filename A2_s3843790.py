@@ -454,7 +454,7 @@ def scene6():
     global quest_award
 
     # Introduces current scene and scenario to user
-    print("Your party took out the remaining scouts, however their squad leader returns...\n"
+    print("\nYour party took out the remaining scouts, however their squad leader returns...\n"
           "Will you fight him or will you sneak away? \n")
 
     prompt = "1. Attack with your weapon: " + user_char_weapon + " \n" \
